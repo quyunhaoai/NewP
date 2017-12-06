@@ -1,6 +1,8 @@
 //
 //  ViewController.m
 //  NewP
+
+
 //
 //  Created by hao on 2017/11/4.
 //  Copyright © 2017年 hao. All rights reserved.
@@ -39,7 +41,9 @@
     //设置所有标题
     [self setAllTitleButton];
     
+    [self setButtonTile:[self.titleButtons firstObject]];
 //    [self setOneViewConroller:0];
+//    [self setTitlecenter:[self.titleButtons firstObject]];
 }
 -(void)setAllViewController{
     VideoViewController *video = [[VideoViewController alloc]init];
@@ -77,14 +81,27 @@
     if (titleVeiwOffset > maxOffset) {
         titleVeiwOffset = maxOffset;
     }
-    
+    [UIView animateWithDuration:0.3 animations:^{
     [self.titleScrollview setContentOffset:CGPointMake(titleVeiwOffset, 0) animated:YES];
+    }];
+   
     
     
 }
 -(void)setButtonTile:(UIButton *)button{
-    [_selectButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    
+//    [UIView animateWithDuration:0.3 animations:^{
+        [_selectButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        
+//        for (UIButton *but in self.titleButtons) {
+//            if (but.tag == button.tag) continue;
+        [_selectButton setTransform:CGAffineTransformMakeScale(1, 1)];
+        [button setTransform:CGAffineTransformMakeScale(1.3, 1.3)];
+//        }
+//    }];
+
+
     _selectButton = button;
     
     [self setTitlecenter:button];
@@ -110,7 +127,7 @@
     for (int i = 0; i<count; i++) {
         UIButton *but = [UIButton buttonWithType:UIButtonTypeCustom];
         UIViewController *vc = self.childViewControllers[i];
-        
+//        but.font = [UIFont systemFontOfSize:14];;
         [but setTitle:vc.title forState:UIControlStateNormal];
         CGFloat width = 100;
         but.frame = CGRectMake(width*i, 0, width, CGRectGetHeight(self.titleScrollview.frame));
@@ -177,10 +194,30 @@
     CGFloat scaleR = scrollView.contentOffset.x / mainscreenWidth;
     scaleR -=leftI;
     CGFloat scaleL = 1-scaleR;
-    
+    NSLog(@"scaleL%f--scaleR%f",scaleL,scaleR);
     leftBut.transform = CGAffineTransformMakeScale(scaleL*0.3 +1, scaleL*0.3 +1);
     rightBut.transform = CGAffineTransformMakeScale(scaleR*0.3 +1, scaleR*0.3 +1);
     
 
 }
+/*
+-(void)currentButtAnview:(UIButton *)button
+{
+    NSInteger leftI = button.tag;
+    //右边按钮
+    NSInteger rightI = leftI +1;
+    UIButton *rightBut;
+    
+    if (rightI < self.titleButtons.count) {
+        rightBut =self.titleButtons[rightI];
+    }
+    CGFloat scaleR = scrollView.contentOffset.x / mainscreenWidth;
+    scaleR -=leftI;
+    CGFloat scaleL = 1-scaleR;
+    
+    leftBut.transform = CGAffineTransformMakeScale(scaleL*0.3 +1, scaleL*0.3 +1);
+    rightBut.transform = CGAffineTransformMakeScale(scaleR*0.3 +1, scaleR*0.3 +1);
+
+}
+ */
 @end
